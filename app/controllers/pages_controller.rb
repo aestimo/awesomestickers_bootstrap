@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  def how_it_works
+  def how_to_order
     render
   end
 
