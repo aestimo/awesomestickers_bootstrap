@@ -1,12 +1,10 @@
 Rails.application.routes.draw do
 
-  get 'pages/how_it_works'
-
-  get 'pages/printing_process'
-
-  get 'pages/help'
-
   root 'welcome#home'
+
+  PagesController.action_methods.each do |action|
+    get "/#{action}", to: "pages##{action}", as: "#{action}_page"
+  end
 
 
 end
