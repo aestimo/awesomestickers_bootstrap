@@ -46,8 +46,9 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </a>
-            <!--<a class="brand" href="#">Awesome Stickers</a>-->
-            <%= image_tag "awesome-stickers-logo.png", class: "brand" %>
+            <div class="brand">
+                <%= link_to(image_tag("awesome-stickers-logo.png"), root_path) %>
+            </div>
             <div class="container nav-collapse">
               <ul class="nav top-awesome-nav">
                 <li><%= link_to "Stickers"  %></li>
