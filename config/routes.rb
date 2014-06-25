@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :stickers
+
   root 'welcome#home'
 
   PagesController.action_methods.each do |action|
