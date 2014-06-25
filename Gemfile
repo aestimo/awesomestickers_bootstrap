@@ -29,4 +29,6 @@ gem 'spring',        group: :development
 gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
+gem 'carrierwave'
+gem 'thin'
 
