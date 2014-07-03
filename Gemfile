@@ -34,4 +34,5 @@ gem 'thin'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'capistrano-ext'
+gem 'net-ssh', '2.7.0'
 
