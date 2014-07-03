@@ -1,1 +1,1 @@
-set :deploy_to, "/home/deploy/apps/rails/awesomestickers-bootstrap_staging"
+set :deploy_to, "/home/deploy/apps/rails/awesomestickers_bootstrap_staging"
