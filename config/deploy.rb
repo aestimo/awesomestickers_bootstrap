@@ -23,7 +23,7 @@ set :use_sudo, false # do not use sudo
 # Git
 
 set :scm, :git # set git as a Source Code Manager
-set :repository,  "ssh://deploy@176.58.118.100:2317/home/#{deploy}/repos/#{awesomestickers-bootstrap}.git" # point your repository here
+set :repository,  "ssh://deploy@176.58.118.100:2317/home/#{user}/repos/#{application}.git" # point your repository here
 
 set :branch, "master" # set git branch here
 
