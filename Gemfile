@@ -31,10 +31,7 @@ gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'carrierwave'
 gem 'thin'
-gem 'capistrano', '~> 3.1.0'
-# gem 'capistrano-bundler', '~> 1.1.2'
-# gem 'capistrano-rails', '~> 1.1.1'
-# gem 'capistrano', '2.15.4'
-# gem 'rvm-capistrano'
-# gem 'capistrano-ext'
+gem 'capistrano'
+gem 'rvm-capistrano'
+gem 'capistrano-ext'
 
