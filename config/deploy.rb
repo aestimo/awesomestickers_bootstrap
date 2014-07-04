@@ -34,6 +34,8 @@ role :app, "176.58.118.100" # server with your app
 role :db,  "176.58.118.100", :primary => true # database server
 role :db,  "176.58.118.100"
 
+set :rvm_ruby_string, :local
+
 # Passenger
 
 namespace :deploy do
