@@ -9,7 +9,7 @@ ssh_options[:port] = 2317 # if you haven't changed anything in SSH config, set i
 ssh_options[:forward_agent] = true # forward ssh keys
 default_run_options[:pty] = true # set for the password prommpt
 
-set :application, "awesomestickers-bootstrap" # set the name of you application here
+set :application, "awesomestickers_bootstrap" # set the name of you application here
 set :user, "deploy" # and the server user name
 
 set :stages, ["staging", "production"] # Set staging and production environment
