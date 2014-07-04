@@ -30,7 +30,7 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'carrierwave'
-gem 'thin'
+# gem 'thin'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'capistrano-ext'
