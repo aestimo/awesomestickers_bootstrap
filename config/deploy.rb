@@ -1,62 +1,76 @@
-require "bundler/capistrano"
-require 'capistrano/ext/multistage'
-require "rvm/capistrano"
+# config valid only for Capistrano 3.1
+lock '3.1.0'
 
-# General
+set :application, 'foobar'                       # application name
+set :repo_url, 'git@github.com:aestimo/awesomestickers_bootstrap.git'   # your repo url
+set :deploy_to, '/home/deploy/apps/awesomestickers_bootstrap'
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-set :keep_releases, 5 # or any other number of releases you would like to keep
-ssh_options[:port] = 2317 # if you haven't changed anything in SSH config, set it to 22
-ssh_options[:forward_agent] = true # forward ssh keys
-default_run_options[:pty] = true # set for the password prommpt
+# Default deploy_to directory is /var/www/my_app
+# set :deploy_to, '/var/www/my_app'
 
-set :application, "awesomestickers_bootstrap" # set the name of you application here
-set :user, "deploy" # and the server user name
+# Default value for :scm is :git
+set :scm, :git
+set :branch, 'master'
+set :keep_releases, 5
 
-set :stages, ["staging", "production"] # Set staging and production environment
-set :default_stage, "staging" # Use staging environment as the default one to prevent accidentally deploying to production
+# Default value for :format is :pretty
+set :format, :pretty
+set :log_level, :debug
+set :pty, true
 
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-set :deploy_via, :remote_cache # it will only fetch from the repository on server, not clone the entire repository from scratch
+# Default value for :pty is false
+# set :pty, true
 
-set :use_sudo, false # do not use sudo
+# Default value for :linked_files is []
+# set :linked_files, %w{config/database.yml}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-# Git
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
-set :scm, :git # set git as a Source Code Manager
-set :repository,  "ssh://deploy@176.58.118.100:2317/home/#{user}/repos/#{application}.git" # point your repository here
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
-set :branch, "master" # set git branch here
+# configs to set Puma
 
-# Server
-
-role :web, "176.58.118.100" # HTTP Server
-role :app, "176.58.118.100" # server with your app
-role :db,  "176.58.118.100", :primary => true # database server
-role :db,  "176.58.118.100"
-
-set :rvm_ruby_string, :local
-
-# Passenger
+set :puma_rackup, -> { File.join(current_path, 'config.ru') }
+set :puma_state, "#{shared_path}/tmp/pids/puma.state"
+set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
+set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
+set :puma_conf, "#{shared_path}/puma.rb"
+set :puma_access_log, "#{shared_path}/log/puma_error.log"
+set :puma_error_log, "#{shared_path}/log/puma_access.log"
+set :puma_role, :app
+set :puma_env, fetch(:rack_env, fetch(:rails_env, 'production'))
+set :puma_threads, [0, 16]
+set :puma_workers, 0
+set :puma_init_active_record, true
+set :puma_preload_app, true
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app do # restart your app after finalizing deployment
-    run "touch #{current_path}/tmp/restart.txt"
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+    end
   end
+
+  after :publishing, :restart
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
+  end
+
 end
-
-# Symlinking
-
-namespace :deploy do
-  task :symlink_db, :roles => :app do
-    run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml" # This file is not included repository, so we will create a symlink
-  end
-  task :symlink_secret_token, :roles => :app do
-    run "ln -nfs #{deploy_to}/shared/config/initializers/secret_token.rb #{release_path}/config/initializers/secret_token.rb" # This file is not included repository, so we will create a symlink
-  end
-end
-
-before 'deploy:assets:precompile', 'deploy:symlink_db' # callback: run this task before deploy:assets:precompile
-before 'deploy:assets:precompile', 'deploy:symlink_secret_token' # # callback: run this task before deploy:assets:precompile
-after "deploy", "deploy:cleanup" # delete old releases
