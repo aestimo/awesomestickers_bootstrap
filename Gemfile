@@ -30,9 +30,9 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'carrierwave'
-# gem 'thin'
-gem 'capistrano'
-gem 'rvm-capistrano'
-gem 'capistrano-ext'
-gem 'net-ssh', '2.7.0'
+
+# deployment gems
+group :developemnt do
+  gem 'capistrano', '~> 3.1.0'
+end
 
