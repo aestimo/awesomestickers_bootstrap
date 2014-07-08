@@ -20,5 +20,5 @@
 /config/secrets.yml
 /older-capistrano-backup
 #/config/deploy/production.rb
-#/config/deploy.rb
+/config/deploy.rb
 
