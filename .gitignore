@@ -17,7 +17,8 @@
 # Ignore other files.
 /config/initializers/secret_token.rb
 /config/database.yml
+/config/secrets.yml
 /older-capistrano-backup
-/config/deploy/production.rb
-/config/deploy.rb
+#/config/deploy/production.rb
+#/config/deploy.rb
 
